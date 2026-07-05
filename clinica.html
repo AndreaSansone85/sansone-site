@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clinica — Andrea Sansone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">Andrea Sansone<small>Sexual Medicine · Andrology · Endocrinology</small></a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Menu">☰</button>
+    <nav class="main-nav" aria-label="Principale">
+      <a href="/chi-sono" data-it="Chi sono" data-en="About">Chi sono</a>
+      <a href="/ricerca" data-it="Ricerca" data-en="Research">Ricerca</a>
+      <a href="/clinica" aria-current="page" data-it="Clinica" data-en="Clinic">Clinica</a>
+      <a href="/didattica" data-it="Didattica" data-en="Teaching">Didattica</a>
+      <a href="/galleria" data-it="Galleria" data-en="Gallery">Galleria</a>
+      <div class="lang-toggle" data-lang-toggle>
+        <button data-lang="it" aria-pressed="true">IT</button>
+        <button data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow" data-it="Attività clinica" data-en="Clinical activity">Attività clinica</span>
+      <h1 id="intro-titolo" data-it="Visite di andrologia e medicina della sessualità" data-en="Andrology and sexual medicine consultations">Visite di andrologia e medicina della sessualità</h1>
+      <div id="intro-testo" class="lede"></div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" id="cta-prenota" href="#" target="_blank" rel="noopener">Prenota una visita</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> Andrea Sansone</span>
+    <span data-it="Università di Roma Tor Vergata · ENDOSEX" data-en="University of Rome Tor Vergata · ENDOSEX">Università di Roma Tor Vergata · ENDOSEX</span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(function () {
+  fetch('/content/pagine/clinica.json').then(r => r.json()).then(data => {
+    function render() {
+      const lang = window.getCurrentLang();
+      document.getElementById('intro-testo').innerHTML = `<p>${lang === 'it' ? data.intro_it : data.intro_en}</p>`;
+      const cta = document.getElementById('cta-prenota');
+      cta.textContent = lang === 'it' ? data.cta_it : data.cta_en;
+      cta.href = data.link_prenotazioni || '#';
+    }
+    render();
+    document.addEventListener('langchange', render);
+  });
+})();
+</script>
+</body>
+</html>

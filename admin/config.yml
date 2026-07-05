@@ -1,0 +1,119 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Media caricati dal CMS (foto profilo, loghi, immagini di galleria, ecc.)
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+locale: "it"
+
+collections:
+  # ---------------------------------------------------------
+  # Testi delle pagine statiche (Chi sono / Clinica / Home)
+  # ---------------------------------------------------------
+  - name: "pagine"
+    label: "Pagine del sito"
+    files:
+      - name: "chi-sono"
+        label: "Chi sono"
+        file: "content/pagine/chi-sono.json"
+        fields:
+          - { label: "Titolo (IT)", name: "titolo_it", widget: "string" }
+          - { label: "Titolo (EN)", name: "titolo_en", widget: "string" }
+          - { label: "Testo (IT)", name: "testo_it", widget: "markdown" }
+          - { label: "Testo (EN)", name: "testo_en", widget: "markdown" }
+          - { label: "Foto profilo", name: "foto", widget: "image", required: false }
+
+      - name: "clinica"
+        label: "Attività clinica"
+        file: "content/pagine/clinica.json"
+        fields:
+          - { label: "Testo introduttivo (IT)", name: "intro_it", widget: "markdown" }
+          - { label: "Testo introduttivo (EN)", name: "intro_en", widget: "markdown" }
+          - { label: "Link piattaforma prenotazioni", name: "link_prenotazioni", widget: "string", default: "#", hint: "Sostituire con il link reale quando disponibile" }
+          - { label: "Etichetta pulsante (IT)", name: "cta_it", widget: "string", default: "Prenota una visita" }
+          - { label: "Etichetta pulsante (EN)", name: "cta_en", widget: "string", default: "Book an appointment" }
+
+  # ---------------------------------------------------------
+  # Congressi e relazioni — gestione manuale, un file per voce
+  # ---------------------------------------------------------
+  - name: "congressi"
+    label: "Congressi e relazioni"
+    folder: "content/congressi"
+    create: true
+    slug: "{{year}}-{{slug}}"
+    extension: "json"
+    format: "json"
+    fields:
+      - { label: "Titolo relazione (IT)", name: "titolo_it", widget: "string" }
+      - { label: "Titolo relazione (EN)", name: "titolo_en", widget: "string" }
+      - { label: "Congresso / evento", name: "evento", widget: "string" }
+      - { label: "Luogo", name: "luogo", widget: "string" }
+      - { label: "Data", name: "data", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Tipo", name: "tipo", widget: "select", options: ["Relazione orale", "Poster", "Keynote", "Lezione magistrale", "Chairman/Moderazione"] }
+      - { label: "Link (abstract, sito congresso, ecc.)", name: "link", widget: "string", required: false }
+
+  # ---------------------------------------------------------
+  # Didattica — lezioni scaricabili + artifact Claude
+  # ---------------------------------------------------------
+  - name: "lezioni"
+    label: "Didattica — Lezioni"
+    folder: "content/lezioni"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    fields:
+      - { label: "Titolo (IT)", name: "titolo_it", widget: "string" }
+      - { label: "Titolo (EN)", name: "titolo_en", widget: "string" }
+      - { label: "Corso / destinatari", name: "corso", widget: "string", hint: "Es. Psicologia, Medicina, Specializzazione" }
+      - { label: "Descrizione (IT)", name: "descrizione_it", widget: "markdown", required: false }
+      - { label: "Descrizione (EN)", name: "descrizione_en", widget: "markdown", required: false }
+      - { label: "Data", name: "data", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "PDF lezione", name: "pdf", widget: "file", media_folder: "/assets/uploads/lezioni", public_folder: "/assets/uploads/lezioni", required: false }
+      - { label: "Link artifact Claude (embed pubblico)", name: "artifact_url", widget: "string", required: false, hint: "URL di condivisione pubblica dell'artifact, verrà mostrato in un riquadro incorporato" }
+
+  # ---------------------------------------------------------
+  # Galleria fotografica
+  # ---------------------------------------------------------
+  - name: "galleria"
+    label: "Galleria fotografica"
+    folder: "content/galleria"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    fields:
+      - { label: "Didascalia (IT)", name: "didascalia_it", widget: "string", required: false }
+      - { label: "Didascalia (EN)", name: "didascalia_en", widget: "string", required: false }
+      - { label: "Data", name: "data", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "Immagine", name: "immagine", widget: "image", media_folder: "/assets/uploads/galleria", public_folder: "/assets/uploads/galleria" }
+
+  # ---------------------------------------------------------
+  # Pubblicazioni: solo le eccezioni manuali. La lista principale
+  # arriva in automatico da PubMed (vedi scripts/update_pubmed.py)
+  # ---------------------------------------------------------
+  - name: "pubblicazioni_overrides"
+    label: "Pubblicazioni — eccezioni manuali"
+    files:
+      - name: "overrides"
+        label: "Aggiunte / esclusioni"
+        file: "content/pubblicazioni/overrides.json"
+        fields:
+          - label: "PMID da escludere"
+            name: "exclude_pmids"
+            widget: "list"
+            hint: "Numeri PMID di voci PubMed da NON mostrare (omonimie, refusi)"
+            field: { label: "PMID", name: "pmid", widget: "string" }
+          - label: "Pubblicazioni aggiunte a mano"
+            name: "manual_entries"
+            widget: "list"
+            hint: "Per voci senza PMID: capitoli di libro, preprint, ecc."
+            fields:
+              - { label: "Titolo", name: "title", widget: "string" }
+              - { label: "Autori", name: "authors", widget: "string" }
+              - { label: "Rivista / editore", name: "journal", widget: "string" }
+              - { label: "Anno", name: "year", widget: "number", value_type: "int" }
+              - { label: "DOI", name: "doi", widget: "string", required: false }
+              - { label: "Link", name: "pmid", widget: "string", required: false, hint: "Lasciare vuoto se non applicabile" }

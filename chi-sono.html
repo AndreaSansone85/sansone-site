@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chi sono — Andrea Sansone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">Andrea Sansone<small>Sexual Medicine · Andrology · Endocrinology</small></a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Menu">☰</button>
+    <nav class="main-nav" aria-label="Principale">
+      <a href="/chi-sono" aria-current="page" data-it="Chi sono" data-en="About">Chi sono</a>
+      <a href="/ricerca" data-it="Ricerca" data-en="Research">Ricerca</a>
+      <a href="/clinica" data-it="Clinica" data-en="Clinic">Clinica</a>
+      <a href="/didattica" data-it="Didattica" data-en="Teaching">Didattica</a>
+      <a href="/galleria" data-it="Galleria" data-en="Gallery">Galleria</a>
+      <div class="lang-toggle" data-lang-toggle>
+        <button data-lang="it" aria-pressed="true">IT</button>
+        <button data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="padding-bottom:2rem;">
+    <div class="wrap">
+      <span class="eyebrow" data-it="Chi sono" data-en="About">Chi sono</span>
+      <h1 id="titolo">…</h1>
+    </div>
+  </section>
+  <section class="block">
+    <div class="wrap grid grid-2">
+      <div id="foto-wrap"></div>
+      <div id="testo" style="font-size:1.05rem;"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> Andrea Sansone</span>
+    <span data-it="Università di Roma Tor Vergata · ENDOSEX" data-en="University of Rome Tor Vergata · ENDOSEX">Università di Roma Tor Vergata · ENDOSEX</span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(function () {
+  fetch('/content/pagine/chi-sono.json').then(r => r.json()).then(data => {
+    function render() {
+      const lang = window.getCurrentLang();
+      document.getElementById('titolo').textContent = lang === 'it' ? data.titolo_it : data.titolo_en;
+      document.getElementById('testo').innerHTML = (lang === 'it' ? data.testo_it : data.testo_en)
+        .split('\n\n').map(p => `<p>${p}</p>`).join('');
+    }
+    if (data.foto) {
+      document.getElementById('foto-wrap').innerHTML =
+        `<img src="${data.foto}" alt="Andrea Sansone" style="border-radius:3px;border:1px solid var(--line);">`;
+    }
+    render();
+    document.addEventListener('langchange', render);
+  });
+})();
+</script>
+</body>
+</html>

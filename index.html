@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Andrea Sansone — Medicina della sessualità, andrologia, endocrinologia</title>
+<meta name="description" content="Sito personale di Andrea Sansone: attività clinica, ricerca e didattica in medicina della sessualità, andrologia ed endocrinologia." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">Andrea Sansone<small>Sexual Medicine · Andrology · Endocrinology</small></a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Menu">☰</button>
+    <nav class="main-nav" aria-label="Principale">
+      <a href="/chi-sono" data-it="Chi sono" data-en="About">Chi sono</a>
+      <a href="/ricerca" data-it="Ricerca" data-en="Research">Ricerca</a>
+      <a href="/clinica" data-it="Clinica" data-en="Clinic">Clinica</a>
+      <a href="/didattica" data-it="Didattica" data-en="Teaching">Didattica</a>
+      <a href="/galleria" data-it="Galleria" data-en="Gallery">Galleria</a>
+      <div class="lang-toggle" data-lang-toggle>
+        <button data-lang="it" aria-pressed="true">IT</button>
+        <button data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow" data-it="Medico · Ricercatore · Docente" data-en="Physician · Researcher · Lecturer">Medico · Ricercatore · Docente</span>
+      <h1 data-it="Medicina della sessualità, andrologia, endocrinologia." data-en="Sexual medicine, andrology, endocrinology.">Medicina della sessualità, andrologia, endocrinologia.</h1>
+      <p class="lede" data-it="Attività clinica, ricerca e didattica presso l'Università di Roma Tor Vergata e la rete ENDOSEX." data-en="Clinical, research and teaching activity at the University of Rome Tor Vergata and the ENDOSEX network.">Attività clinica, ricerca e didattica presso l'Università di Roma Tor Vergata e la rete ENDOSEX.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/ricerca" data-it="Vai alle pubblicazioni" data-en="Browse publications">Vai alle pubblicazioni</a>
+        <a class="btn btn-ghost" href="/clinica" data-it="Prenota una visita" data-en="Book an appointment">Prenota una visita</a>
+      </div>
+
+      <div class="affiliations" aria-label="Affiliazioni istituzionali">
+        <img src="/assets/logos/torvergata.svg" alt="Università di Roma Tor Vergata" onerror="this.style.display='none'">
+        <img src="/assets/logos/endosex.svg" alt="ENDOSEX" onerror="this.style.display='none'">
+        <img src="/assets/logos/siams.svg" alt="SIAMS" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <span class="eyebrow" data-it="Aree del sito" data-en="Site sections">Aree del sito</span>
+      <div class="grid grid-3">
+        <a class="card" href="/ricerca" style="text-decoration:none;color:inherit;">
+          <h3 data-it="Ricerca" data-en="Research">Ricerca</h3>
+          <p data-it="Pubblicazioni aggiornate automaticamente da PubMed, congressi e relazioni." data-en="Publications auto-updated from PubMed, congresses and talks.">Pubblicazioni aggiornate automaticamente da PubMed, congressi e relazioni.</p>
+        </a>
+        <a class="card" href="/didattica" style="text-decoration:none;color:inherit;">
+          <h3 data-it="Didattica" data-en="Teaching">Didattica</h3>
+          <p data-it="Materiali delle lezioni scaricabili in PDF ed esperienze interattive." data-en="Downloadable lecture PDFs and interactive experiences.">Materiali delle lezioni scaricabili in PDF ed esperienze interattive.</p>
+        </a>
+        <a class="card" href="/clinica" style="text-decoration:none;color:inherit;">
+          <h3 data-it="Clinica" data-en="Clinic">Clinica</h3>
+          <p data-it="Informazioni sull'attività clinica e link per la prenotazione delle visite." data-en="Information about clinical activity and appointment booking.">Informazioni sull'attività clinica e link per la prenotazione delle visite.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> Andrea Sansone</span>
+    <span data-it="Università di Roma Tor Vergata · ENDOSEX" data-en="University of Rome Tor Vergata · ENDOSEX">Università di Roma Tor Vergata · ENDOSEX</span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="/assets/js/app.js"></script>
+</body>
+</html>

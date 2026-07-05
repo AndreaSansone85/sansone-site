@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "titolo_it": "Esempio di lezione (sostituire o eliminare)",
+      "titolo_en": "Example lecture (replace or delete)",
+      "corso": "Corso di laurea",
+      "descrizione_it": "Breve descrizione del contenuto della lezione.",
+      "descrizione_en": "Short description of the lecture content.",
+      "data": "2026-01-01",
+      "pdf": "",
+      "artifact_url": ""
+    }
+  ]
+}

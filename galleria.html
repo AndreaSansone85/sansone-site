@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Galleria — Andrea Sansone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">Andrea Sansone<small>Sexual Medicine · Andrology · Endocrinology</small></a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Menu">☰</button>
+    <nav class="main-nav" aria-label="Principale">
+      <a href="/chi-sono" data-it="Chi sono" data-en="About">Chi sono</a>
+      <a href="/ricerca" data-it="Ricerca" data-en="Research">Ricerca</a>
+      <a href="/clinica" data-it="Clinica" data-en="Clinic">Clinica</a>
+      <a href="/didattica" data-it="Didattica" data-en="Teaching">Didattica</a>
+      <a href="/galleria" aria-current="page" data-it="Galleria" data-en="Gallery">Galleria</a>
+      <div class="lang-toggle" data-lang-toggle>
+        <button data-lang="it" aria-pressed="true">IT</button>
+        <button data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="padding-bottom:2rem;">
+    <div class="wrap">
+      <span class="eyebrow" data-it="Galleria" data-en="Gallery">Galleria</span>
+      <h1 data-it="Immagini" data-en="Images">Immagini</h1>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox">
+  <button class="close" id="lightbox-close">Chiudi ✕</button>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> Andrea Sansone</span>
+    <span data-it="Università di Roma Tor Vergata · ENDOSEX" data-en="University of Rome Tor Vergata · ENDOSEX">Università di Roma Tor Vergata · ENDOSEX</span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(function () {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  document.getElementById('lightbox-close').addEventListener('click', () => lightbox.classList.remove('open'));
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+
+  fetch('/content/galleria/index.json').then(r => r.json()).then(data => {
+    const items = data.items || [];
+    function render() {
+      const lang = window.getCurrentLang();
+      const grid = document.getElementById('gallery-grid');
+      if (!items.length) {
+        grid.innerHTML = `<p>${lang === 'it' ? 'Nessuna immagine caricata ancora.' : 'No images uploaded yet.'}</p>`;
+        return;
+      }
+      grid.innerHTML = items.map((it, i) => {
+        const caption = lang === 'it' ? (it.didascalia_it || '') : (it.didascalia_en || it.didascalia_it || '');
+        return `<button data-idx="${i}" aria-label="${caption}"><img src="${it.immagine}" alt="${caption}" loading="lazy"></button>`;
+      }).join('');
+      grid.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const it = items[Number(btn.dataset.idx)];
+          lightboxImg.src = it.immagine;
+          lightboxImg.alt = it.didascalia_it || '';
+          lightbox.classList.add('open');
+        });
+      });
+    }
+    render();
+    document.addEventListener('langchange', render);
+  }).catch(() => {
+    document.getElementById('gallery-grid').innerHTML = '<p>—</p>';
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Didattica — Andrea Sansone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">Andrea Sansone<small>Sexual Medicine · Andrology · Endocrinology</small></a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Menu">☰</button>
+    <nav class="main-nav" aria-label="Principale">
+      <a href="/chi-sono" data-it="Chi sono" data-en="About">Chi sono</a>
+      <a href="/ricerca" data-it="Ricerca" data-en="Research">Ricerca</a>
+      <a href="/clinica" data-it="Clinica" data-en="Clinic">Clinica</a>
+      <a href="/didattica" aria-current="page" data-it="Didattica" data-en="Teaching">Didattica</a>
+      <a href="/galleria" data-it="Galleria" data-en="Gallery">Galleria</a>
+      <div class="lang-toggle" data-lang-toggle>
+        <button data-lang="it" aria-pressed="true">IT</button>
+        <button data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="padding-bottom:2rem;">
+    <div class="wrap">
+      <span class="eyebrow" data-it="Didattica" data-en="Teaching">Didattica</span>
+      <h1 data-it="Materiali didattici" data-en="Teaching materials">Materiali didattici</h1>
+      <p class="lede" data-it="Dispense scaricabili in PDF ed esperienze interattive utilizzate a lezione." data-en="Downloadable PDF handouts and interactive experiences used in lectures.">Dispense scaricabili in PDF ed esperienze interattive utilizzate a lezione.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div id="lezioni-list" class="grid grid-2"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year"></span> Andrea Sansone</span>
+    <span data-it="Università di Roma Tor Vergata · ENDOSEX" data-en="University of Rome Tor Vergata · ENDOSEX">Università di Roma Tor Vergata · ENDOSEX</span>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="/assets/js/app.js"></script>
+<script>
+(function () {
+  fetch('/content/lezioni/index.json').then(r => r.json()).then(data => {
+    const items = data.items || [];
+    function render() {
+      const lang = window.getCurrentLang();
+      const wrap = document.getElementById('lezioni-list');
+      if (!items.length) {
+        wrap.innerHTML = `<p>${lang === 'it' ? 'Nessuna lezione caricata ancora.' : 'No lectures uploaded yet.'}</p>`;
+        return;
+      }
+      wrap.innerHTML = items.map(it => `
+        <div class="card lesson-card">
+          <span class="tag">${it.corso || ''}</span>
+          <h3>${lang === 'it' ? it.titolo_it : (it.titolo_en || it.titolo_it)}</h3>
+          ${(it.descrizione_it || it.descrizione_en) ? `<p>${lang === 'it' ? (it.descrizione_it || '') : (it.descrizione_en || it.descrizione_it || '')}</p>` : ''}
+          ${it.pdf ? `<a class="btn btn-ghost" href="${it.pdf}" download>${lang === 'it' ? 'Scarica PDF' : 'Download PDF'}</a>` : ''}
+          ${it.artifact_url ? `<div class="lesson-artifact"><iframe src="${it.artifact_url}" loading="lazy" title="${it.titolo_it}"></iframe></div>` : ''}
+        </div>
+      `).join('');
+    }
+    render();
+    document.addEventListener('langchange', render);
+  }).catch(() => {
+    document.getElementById('lezioni-list').innerHTML = '<p>—</p>';
+  });
+})();
+</script>
+</body>
+</html>

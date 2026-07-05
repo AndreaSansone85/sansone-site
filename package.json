@@ -1,0 +1,9 @@
+{
+  "name": "sito-personale-sansone",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sito personale — nessun framework, HTML/CSS/JS statico. Lo script di build aggrega i contenuti creati via CMS.",
+  "scripts": {
+    "build": "node scripts/build-content-index.js"
+  }
+}
