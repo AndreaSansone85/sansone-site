@@ -15,6 +15,13 @@ collections:
   - name: "pagine"
     label: "Pagine del sito"
     files:
+      - name: "home"
+        label: "Home — immagine hero"
+        file: "content/pagine/home.json"
+        fields:
+          - { label: "Foto di sfondo (hero)", name: "hero_foto", widget: "image", media_folder: "/assets/uploads", public_folder: "/assets/uploads", required: false, hint: "Foto orizzontale, ideale almeno 1600px di larghezza. Se vuota, il sito mostra lo sfondo semplice." }
+          - { label: "Didascalia/credito foto (opzionale)", name: "hero_credito", widget: "string", required: false }
+
       - name: "chi-sono"
         label: "Chi sono"
         file: "content/pagine/chi-sono.json"

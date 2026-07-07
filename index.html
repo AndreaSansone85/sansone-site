@@ -30,7 +30,7 @@
 </header>
 
 <main>
-  <section class="hero">
+  <section class="hero hero-photo no-photo" id="hero">
     <div class="wrap">
       <span class="eyebrow" data-it="Medico · Ricercatore · Docente" data-en="Physician · Researcher · Lecturer">Medico · Ricercatore · Docente</span>
       <h1 data-it="Medicina della sessualità, andrologia, endocrinologia." data-en="Sexual medicine, andrology, endocrinology.">Medicina della sessualità, andrologia, endocrinologia.</h1>
@@ -45,6 +45,7 @@
         <img src="/assets/logos/endosex.svg" alt="ENDOSEX" onerror="this.style.display='none'">
         <img src="/assets/logos/siams.svg" alt="SIAMS" onerror="this.style.display='none'">
       </div>
+      <p class="hero-photo-credit" id="hero-credit"></p>
     </div>
   </section>
 
@@ -78,5 +79,19 @@
 
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 <script src="/assets/js/app.js"></script>
+<script>
+(function () {
+  fetch('/content/pagine/home.json').then(r => r.json()).then(data => {
+    const hero = document.getElementById('hero');
+    if (data.hero_foto) {
+      hero.style.backgroundImage = `url('${data.hero_foto}')`;
+      hero.classList.remove('no-photo');
+    }
+    if (data.hero_credito) {
+      document.getElementById('hero-credit').textContent = data.hero_credito;
+    }
+  }).catch(() => {});
+})();
+</script>
 </body>
 </html>
